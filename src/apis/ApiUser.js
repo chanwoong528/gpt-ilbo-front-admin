@@ -21,3 +21,14 @@ export const GETUsers = async () => {
     console.warn("GETUsers[error]: ", error)
   }
 }
+
+export const PATCHUserActive = async (params) => {
+  try {
+    const updateUserAct = await Axios.patch(baseApiUrl + "/user", {
+      toggleData: params
+    })
+    return updateUserAct.data
+  } catch (error) {
+    console.warn("PATCHUserActive[error]: ", error)
+  }
+}

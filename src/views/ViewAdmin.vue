@@ -1,5 +1,6 @@
 <script>
-import { POSTUser, GETUsers } from "../apis/ApiUser";
+import { ref, reactive } from "vue";
+import { POSTUser, GETUsers, PATCHUserActive } from "../apis/ApiUser";
 
 export default {
   data() {
@@ -39,8 +40,19 @@ export default {
     },
     async getUserList() {
       let userListData = await GETUsers();
-      console.log("!!!!   ", userListData.data);
+
       this.dataSource = userListData.data;
+      console.log(userListData.data);
+    },
+    async toggleAdminRole(data) {
+      let confirm = window.confirm("sure to give auth?");
+      if (!!confirm) {
+        let params = { userId: data.id, active: !data.active };
+        const res = await PATCHUserActive(params);
+        if (res.code === 204) {
+          this.getUserList();
+        }
+      }
     },
   },
   mounted() {
@@ -51,45 +63,63 @@ export default {
 
 <template>
   <main>
-    <v-form fast-fail @submit.prevent="createUser" class="user-form">
-      <v-text-field
-        v-model="email"
-        label="Email"
-        :rules="nameRules"
-      ></v-text-field>
+    <section>
+      <header>
+        <h2>Register Admin Page</h2>
+      </header>
+      <v-form fast-fail @submit.prevent="createUser" class="user-form">
+        <v-text-field
+          v-model="email"
+          label="Email"
+          :rules="nameRules"
+        ></v-text-field>
 
-      <v-text-field
-        v-model="name"
-        label="Name"
-        :rules="emailRules"
-      ></v-text-field>
+        <v-text-field
+          v-model="name"
+          label="Name"
+          :rules="emailRules"
+        ></v-text-field>
 
-      <v-btn type="submit" block class="mt-2">Submit</v-btn>
-    </v-form>
-    <div class="user-table">
-      <v-table>
-        <thead>
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in dataSource" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.email }}</td>
-          </tr>
-        </tbody>
-      </v-table>
-    </div>
+        <v-btn type="submit" block class="mt-2">Submit</v-btn>
+      </v-form>
+      <div class="user-table">
+        <v-table>
+          <thead>
+            <tr>
+              <th class="text-left">Name</th>
+              <th class="text-left">Email</th>
+              <th class="text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in dataSource" :key="item.name">
+              <td>{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+              <td>
+                <v-switch
+                  label="Suspend"
+                  inset
+                  color="indigo"
+                  readonly
+                  v-model="item.active"
+                  @click="toggleAdminRole(item)"
+                ></v-switch>
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </div>
+    </section>
   </main>
 </template>
 
 <style scoped>
+main {
+  padding: 30px;
+}
 .user-form {
 }
 .user-table {
-  margin-top: 30px;
-  border: 10px solid;
+  margin-top: 40px;
 }
 </style>

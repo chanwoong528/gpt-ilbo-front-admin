@@ -1,16 +1,12 @@
-//  main.js
 import { createApp } from 'vue'
-import { createPinia } from 'pinia';
+import App from './App.vue'
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
+import router from './router'
 
+loadFonts()
 
-import Antd from 'ant-design-vue';
-import 'ant-design-vue/dist/reset.css';
-import router from './router';
-import App from "./App.vue"
-
-
-const app = createApp(App)
-app.use(router)
-app.use(createPinia())
-app.use(Antd)
-app.mount('#app')
+createApp(App)
+  .use(router)
+  .use(vuetify)
+  .mount('#app')

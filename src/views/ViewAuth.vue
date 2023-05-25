@@ -1,19 +1,24 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/userPinia";
 import { POSTLogin } from "../apis/ApiAuth";
+
 let email = ref("");
 let pw = ref("");
-
 const store = useUserStore();
 const router = useRouter();
+console.log("@@@@@", $cookies);
 const onSubmitLogin = async () => {
   let userData = { email: email.value, pw: pw.value };
   const resLogin = await POSTLogin(userData);
   if (resLogin.code === 200) {
     store.login(resLogin.data);
+    $cookies.set("accessToken", resLogin.data.accessToken);
+    $cookies.set("refreshToken", resLogin.data.refreshToken);
     router.push({ path: "/" });
+  } else {
+    //login failed
   }
 };
 </script>
@@ -27,11 +32,9 @@ const onSubmitLogin = async () => {
 
       <v-card class="px-6 py-8 mx-auto" max-width="344">
         <h2>Login</h2>
-        <v-form v-model="form" @submit.prevent="onSubmitLogin">
+        <v-form @submit.prevent="onSubmitLogin">
           <v-text-field
             v-model="email"
-            :readonly="loading"
-            :rules="[required]"
             class="mb-2"
             clearable
             label="Email"
@@ -39,8 +42,6 @@ const onSubmitLogin = async () => {
 
           <v-text-field
             v-model="pw"
-            :readonly="loading"
-            :rules="[required]"
             clearable
             label="Password"
             placeholder="Enter your password"
@@ -50,13 +51,12 @@ const onSubmitLogin = async () => {
           <br />
 
           <v-btn
-            :disabled="!form"
-            :loading="loading"
             block
             color="success"
             size="large"
             type="submit"
             variant="elevated"
+            :disabled="!email || !pw"
           >
             Sign In
           </v-btn>

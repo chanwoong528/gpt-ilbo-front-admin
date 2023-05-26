@@ -18,7 +18,6 @@ export const POSTUser = async (userParam) => {
 
 
 export const GETUsers = async () => {
-  console.log("!!!!!", VueCookies.get("accessToken"))
   try {
     const fetchUserList = await Axios.get(baseApiUrl + "/user", {})
     return fetchUserList.data;

@@ -8,7 +8,6 @@ let email = ref("");
 let pw = ref("");
 const store = useUserStore();
 const router = useRouter();
-console.log("@@@@@", $cookies);
 const onSubmitLogin = async () => {
   let userData = { email: email.value, pw: pw.value };
   const resLogin = await POSTLogin(userData);

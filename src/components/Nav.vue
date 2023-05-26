@@ -1,5 +1,5 @@
 <script setup>
-import { RouterView, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useUserStore } from "../store/userPinia";
 
 const router = useRouter();
@@ -7,24 +7,17 @@ const store = useUserStore();
 
 const onClickLogout = () => {
   router.push("/auth");
-  store.$reset();
+  store.resetUserInfo();
 };
 </script>
 
 <template>
-  <ul>
-    <li>
-      <router-link to="/">Go to Home</router-link>
-    </li>
-
-    <li>
-      <router-link to="/admin">Go to Admin</router-link>
-    </li>
-    <li v-if="!store.accessToken">
-      <router-link to="/auth">Go to Auth</router-link>
-    </li>
-    <li v-if="!!store.accessToken">
-      <button @click="onClickLogout">Log out</button>
-    </li>
-  </ul>
+  <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="center">
+    <v-tab to="/" :value="1">Go to Home</v-tab>
+    <v-tab to="/admin" :value="2">Go to Admin</v-tab>
+    <v-tab to="/auth" :value="3" v-if="!store.accessToken"> Go to Auth </v-tab>
+    <v-tab :value="3" v-if="!!store.accessToken" @click="onClickLogout">
+      Log out
+    </v-tab>
+  </v-tabs>
 </template>

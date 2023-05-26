@@ -1,7 +1,10 @@
 import { defineStore } from "pinia";
 
+const defaultState = { id: "", accessToken: "", refreshToken: "", name: "", email: "", role: "" }
+
+
 export const useUserStore = defineStore('user', {
-  state: () => ({ id: "", accessToken: "", refreshToken: "", name: "", email: "", role: "" }),
+  state: () => ({ ...defaultState }),
   getters: {
     userInfo: (state) => {
       return state
@@ -17,6 +20,11 @@ export const useUserStore = defineStore('user', {
       this.email = loginUserInfo.email
       this.role = loginUserInfo.role
     },
+    resetUserInfo() {
+      Object.assign(this, defaultState);
+      $cookies.remove("accessToken");
+      $cookies.remove("refreshToken");
+    }
 
   },
 })

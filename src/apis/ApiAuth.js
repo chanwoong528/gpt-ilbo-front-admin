@@ -15,11 +15,10 @@ export const POSTLogin = async (userParam) => {
 }
 export const GETLoginStatus = async (token) => {
   try {
-
     const loginStatus = await Axios.get(baseApiUrl + "/auth", {
       params: { token: token }
     })
-    console.log(loginStatus)
+
     return loginStatus.data;
   } catch (error) {
     console.warn("GETLoginStatus[error]: ", error)

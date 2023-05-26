@@ -91,6 +91,11 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+a {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
 /* HTML5 display-role reset for older browsers */
 article,
 aside,

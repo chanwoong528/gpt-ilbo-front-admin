@@ -42,7 +42,6 @@ export default {
       let userListData = await GETUsers();
 
       this.dataSource = userListData.data;
-      console.log(userListData.data);
     },
     async toggleAdminRole(data) {
       let confirm = window.confirm("sure to give auth?");

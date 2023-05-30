@@ -5,10 +5,7 @@ const store = useUserStore();
 </script>
 
 <template>
-  <main>
-    Home Page
-    <h3>{{ store.userInfo.email }}</h3>
-  </main>
+  <h3>Main Page</h3>
 </template>
 
 <style scoped></style>

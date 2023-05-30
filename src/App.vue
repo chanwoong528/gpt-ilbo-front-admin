@@ -43,5 +43,12 @@ router.beforeEach((to, from) => {
 
 <template>
   <Nav v-if="store.accessToken" />
-  <RouterView />
+  <main>
+    <RouterView />
+  </main>
 </template>
+<style scoped>
+main {
+  padding: 30px;
+}
+</style>

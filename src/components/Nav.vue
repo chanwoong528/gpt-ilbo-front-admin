@@ -1,21 +1,26 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/userPinia";
+import { navItems } from "../router";
 
 const router = useRouter();
 const store = useUserStore();
 
 const onClickLogout = () => {
-  router.push("/auth");
   store.resetUserInfo();
+  router.push("/auth");
 };
 </script>
 
 <template>
   <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="center">
-    <v-tab to="/" :value="1">Go to Home</v-tab>
-    <v-tab to="/admin" :value="2">Go to Admin</v-tab>
-    <v-tab to="/auth" :value="3" v-if="!store.accessToken"> Go to Auth </v-tab>
+    <v-tab
+      v-for="nav in navItems.filter((nav) => {
+        if (!!store.accessToken) return nav.level === 'login';
+      })"
+      :to="nav.path"
+      >{{ nav.name }}</v-tab
+    >
     <v-tab :value="3" v-if="!!store.accessToken" @click="onClickLogout">
       Log out
     </v-tab>

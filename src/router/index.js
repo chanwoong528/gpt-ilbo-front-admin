@@ -5,7 +5,7 @@ import Auth from "../views/ViewAuth.vue";
 import Admin from "../views/ViewAdmin.vue";
 import MyPage from "../views/ViewMypage.vue";
 import News from "../views/ViewNews.vue";
-
+import Category from "../views/ViewCate.vue";
 
 export const navItems = [
   { path: "/", name: "Home", component: Home, level: "login" },
@@ -13,6 +13,7 @@ export const navItems = [
   { path: "/auth", name: "Auth", component: Auth, level: "none" },
   { path: "/mypage", name: "MyPage", component: MyPage, level: "login" },
   { path: "/news", name: "News", component: News, level: "login" },
+  { path: "/category", name: "Category", component: Category, level: "login" },
 ];
 export const router = createRouter({
   history: createWebHistory(),

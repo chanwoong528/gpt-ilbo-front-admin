@@ -1,10 +1,7 @@
 import Axios from "axios"
 import { baseApiUrl } from "../common/config/config"
-import VueCookies from "vue-cookies"
 
 export const POSTUser = async (userParam) => {
-
-
   try {
     const createAdmin = await Axios.post(baseApiUrl + "/user", {
       userData: userParam
